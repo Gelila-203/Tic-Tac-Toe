@@ -7,10 +7,11 @@ let turn= Player_X;
 const boardState= Array(tiles.length);
 boardState.fill(null);
 //Elements
-const strike=document.getElementById("strike");
-const gameOverArea=document.getElementById("game-over-area");
-const gameOverText= document.getElementById("game-over-text");
-const playAgain= document.getElementById("play-again");
+const strike = document.getElementById("strike");
+const gameOverArea = document.getElementById("game-over-area");
+const gameOverText = document.getElementById("game-over-text");
+const playAgain = document.getElementById("play-again");
+
 playAgain.addEventListener('click',startNewGame);
 
 tiles.forEach((tile) => tile.addEventListener('click',tileClick));
@@ -60,35 +61,35 @@ function tileClick(event){
 
 
 const winningCombinations= [
-// row
-    {combo:[1,2,3],strikeClass:"strike-row-1"},
-    {combo:[4,5,6],strikeClass:"strike-row-2"},
-    {combo:[7,8,9],strikeClass:"strike-row-3"},
-//column
+// to check for a row
+    {combo:[0,1,2],strikeClass:"strike-row-1"},
+    {combo:[3,4,5],strikeClass:"strike-row-2"},
+    {combo:[6,7,8],strikeClass:"strike-row-3"},
+//to check for a column
     {combo:[1,4,7],strikeClass:"strike-column-1"},
     {combo:[2,5,8],strikeClass:"strike-column-2"},
     {combo:[3,6,9],strikeClass:"strike-column-3"},
-//diagonal
-    {combo:[1,5,9],strikeClass:"strike-diagonal-1"},
-    {combo:[3,5,7],strikeClass:"strike-diagonal-2"},
+//to check for a diagonal
+    {combo:[0,4,8],strikeClass:"strike-diagonal-1"},
+    {combo:[2,4,6],strikeClass:"strike-diagonal-2"},
 
 ];
 
 function checkWinner(){
     for(const winningCombination of winningCombinations) {
-        //console.log(winningCombination);
+   
         const combo = winningCombination.combo;
         const strikeClass = winningCombination.strikeClass;
-        //const {combo, strikeClass} = winningCombination;
-        const tileValue1=boardState[combo[0]];
-        const tileValue2=boardState[combo[1]];
-        const tileValue3=boardState[combo[2]];
-        if(tileValue1 != null && 
-            tileValue1 === tileValue2 && 
-            tileValue1 === tileValue3) 
+       
+        const cellA=boardState[combo[0]];
+        const cellB=boardState[combo[1]];
+        const cellC=boardState[combo[2]];
+        if(cellA != null && 
+            cellA === cellB && 
+            cellA === cellC) 
             {
             strike.classList.add(strikeClass);
-            gameOverScreen(tileValue1);
+            gameOverScreen(cellA);
             return;
         }
     }
@@ -116,6 +117,6 @@ function startNewGame(){
     gameOverArea.className="hidden";
     boardState.fill(null);
     tiles.forEach((tile) => (tile.innerText =""));
-    turn=Player_X;
+    turn = Player_X;
     setHoverText();
 }
